@@ -1,0 +1,11 @@
+# Drop this next to Shuffle's own docker-compose.yml and run
+# `docker compose up -d --force-recreate orborus`.
+#
+# Clearing SHUFFLE_SWARM_CONFIG stops Orborus from trying to dispatch
+# workflow executions through Docker Swarm, which this single-node lab does
+# not have (and does not need) — see ./README.md.
+
+services:
+  orborus:
+    environment:
+      - SHUFFLE_SWARM_CONFIG=

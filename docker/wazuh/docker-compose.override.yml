@@ -1,0 +1,15 @@
+# Drop this next to wazuh-docker/single-node/docker-compose.yml and run
+# `docker compose up -d` from there (Compose merges override files
+# automatically). It only pins the 3 image tags used in this lab, matching
+# the manager/indexer/dashboard versions exactly — see ./README.md for why
+# that matters.
+
+services:
+  wazuh.manager:
+    image: wazuh/wazuh-manager:4.14.7
+
+  wazuh.indexer:
+    image: wazuh/wazuh-indexer:4.14.7
+
+  wazuh.dashboard:
+    image: wazuh/wazuh-dashboard:4.14.7

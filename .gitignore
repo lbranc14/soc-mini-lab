@@ -1,0 +1,17 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.idea/
+*.vscode/
+
+# Secrets / local overrides — never commit real credentials
+.env
+*.env.local
+config/**/secrets.yml
+
+# Wazuh / Shuffle local state if the official stacks are ever cloned/run
+# from inside this repo (anchored to repo root — does not match docker/shuffle/)
+/wazuh-docker/
+/shuffle/
+*.log

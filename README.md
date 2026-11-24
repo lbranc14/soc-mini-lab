@@ -1,6 +1,10 @@
 # SOC Home Lab - Active Directory + SIEM/EDR + IDS/IPS + SOAR
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Lab de détection et de réponse construit de A à Z pour comprendre concrètement comment une attaque Active Directory est vue, corrélée et traitée par une stack SOC complète.
+
+> 📖 Ce README se concentre sur les points les plus intéressants. Le détail complet de **tous** les problèmes rencontrés (14 au total, diagnostic et correctif) est dans [TROUBLESHOOTING.md](TROUBLESHOOTING.md). Les fichiers de déploiement (`docker-compose`, config Wazuh/Shuffle, script de patch) sont dans [docker/](docker/), [config/](config/) et [scripts/](scripts/).
 
 ## Pourquoi ce projet
 
@@ -129,6 +133,24 @@ $ sudo tcpdump -i enp0s8 port 88 -n -v
   <br/><sub>Premier symptôme : le nœud "Change Me" échoue systématiquement : Orborus tentait de dispatcher en mode Swarm sans cluster configuré</sub>
 </p>
 
+
+## Structure du dépôt
+
+```
+.
+├── README.md                     # ce fichier
+├── TROUBLESHOOTING.md             # journal complet des 14 problèmes rencontrés
+├── LICENSE
+├── docker/
+│   ├── splunk/docker-compose.yml       # Splunk 8.2.12, prêt à l'emploi
+│   ├── suricata/docker-compose.yml     # Suricata en network_mode: host
+│   ├── wazuh/README.md                 # déploiement + overrides sur wazuh-docker officiel
+│   └── shuffle/README.md               # déploiement + overrides sur Shuffle officiel
+├── config/
+│   └── wazuh/ossec-shuffle-integration.xml   # bloc d'intégration Wazuh → Shuffle
+└── scripts/
+    └── patch-shuffle-ssl.sh          # patch du certificat auto-signé Shuffle
+```
 
 ## Compétences mobilisées
 

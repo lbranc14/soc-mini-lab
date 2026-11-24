@@ -1,0 +1,18 @@
+<!--
+  Add this block inside <ossec_config> in config/wazuh_cluster/wazuh_manager.conf
+  (wazuh-docker single-node stack). It's Wazuh's native "shuffle" integration
+  (ships as /var/ossec/integrations/shuffle.py in the manager image) — NOT a
+  custom-* integration, which would require a user-supplied script that
+  doesn't exist. Replace HOOK_ID with the ID from your Shuffle webhook node's
+  URL, and 192.168.171.4 with your Docker host's IP.
+
+  <rule_id>92652</rule_id> scopes this to the one rule this lab's scenario
+  fires on ("Successful Remote Logon Detected ... possible pass-the-hash
+  attack", MITRE T1550.002/T1078.002) rather than every alert in the manager.
+-->
+<integration>
+  <name>shuffle</name>
+  <hook_url>http://192.168.171.4:3001/api/v1/hooks/HOOK_ID</hook_url>
+  <rule_id>92652</rule_id>
+  <alert_format>json</alert_format>
+</integration>

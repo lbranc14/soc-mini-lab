@@ -1,0 +1,37 @@
+# Splunk Enterprise, used as a second SIEM in the lab to cross-check Wazuh's
+# detections and to receive Suricata's eve.json for independent correlation.
+#
+# Pinned to 8.2.12 on purpose: newer Splunk images bundle a MongoDB (KVStore)
+# binary that requires AVX CPU instructions, which the lab's virtualized CPU
+# does not expose. 8.2.12 predates that requirement and starts cleanly.
+# See ../../TROUBLESHOOTING.md#4-splunk-crash-loop-missing-avx-cpu-instructions
+#
+# Usage:
+#   docker compose up -d
+#   https://<host-ip>:8000  (default admin / $SPLUNK_PASSWORD below)
+
+services:
+  splunk:
+    image: splunk/splunk:8.2.12
+    container_name: splunk
+    hostname: splunk
+    restart: unless-stopped
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=ChangeMe_StrongPassword!123
+      - SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-your-own-risk
+    ports:
+      - "8000:8000"   # Web UI
+      - "8088:8088"   # HTTP Event Collector (HEC)
+      - "8089:8089"   # Management port
+      - "9997:9997"   # Forwarder-to-indexer port
+    volumes:
+      - splunk-etc:/opt/splunk/etc
+      - splunk-var:/opt/splunk/var
+      # Drop Suricata's eve.json here (bind-mounted, read-only) to index it
+      # as a monitor input once SPLUNK_ADD / inputs.conf is configured.
+      - ../suricata/log:/var/log/suricata:ro
+
+volumes:
+  splunk-etc:
+  splunk-var:

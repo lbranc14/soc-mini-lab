@@ -1,0 +1,31 @@
+# Suricata IDS/IPS, run in host network mode so it sees the real interface
+# traffic (enp0s8, the host-only adapter facing Kali and the DC) instead of
+# an isolated Docker bridge network.
+#
+# IMPORTANT: on VirtualBox host-only networks, the virtual switch does not
+# replicate unicast traffic between two guest VMs to a third VM by default.
+# Suricata will show zero krb5 traffic until promiscuous mode is enabled on
+# BOTH the VirtualBox adapter ("Allow All") AND the Linux interface:
+#   sudo ip link set enp0s8 promisc on
+# See ../../TROUBLESHOOTING.md#5-suricata-sees-zero-kerberos-traffic
+#
+# Usage:
+#   suricata-update                     # pull/refresh the Emerging Threats ruleset
+#   docker compose up -d
+#   tail -f log/eve.json | jq 'select(.event_type=="alert")'
+
+services:
+  suricata:
+    image: jasonish/suricata:latest
+    container_name: suricata
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_NICE
+    volumes:
+      - ./rules:/etc/suricata/rules
+      - ./log:/var/log/suricata
+      - ./suricata.yaml:/etc/suricata/suricata.yaml:ro
+    command: ["-i", "enp0s8"]
