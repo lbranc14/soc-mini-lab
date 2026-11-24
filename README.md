@@ -1,6 +1,6 @@
-# SOC Home Lab — Active Directory + SIEM/EDR + IDS/IPS + SOAR
+# SOC Home Lab - Active Directory + SIEM/EDR + IDS/IPS + SOAR
 
-Lab de détection et de réponse construit de A à Z pour comprendre concrètement comment une attaque Active Directory est vue, corrélée et traitée par une stack SOC complète — pas un tutoriel suivi à la lettre, mais un environnement cassé, débuggé et reconstruit plusieurs fois pour en comprendre réellement les rouages.
+Lab de détection et de réponse construit de A à Z pour comprendre concrètement comment une attaque Active Directory est vue, corrélée et traitée par une stack SOC complète.
 
 ## Pourquoi ce projet
 
