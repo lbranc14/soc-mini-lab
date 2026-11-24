@@ -77,7 +77,7 @@ python3 GetUserSPNs.py lab.local/yves:Azerty1234! -dc-ip 192.168.171.20 -request
 </p>
 
 ### Corrélation croisée
-Les logs Suricata (`eve.json`) remontent simultanément vers Wazuh et Splunk, permettant de retrouver la même attaque sous trois angles différents dans trois outils distincts — exactement le réflexe qu'on attend d'un analyste SOC pour confirmer une détection sans dépendre d'une seule source.
+Les logs Suricata (`eve.json`) remontent simultanément vers Wazuh et Splunk, permettant de retrouver la même attaque sous trois angles différents dans trois outils distincts, exactement le réflexe qu'on attend d'un analyste SOC pour confirmer une détection sans dépendre d'une seule source.
 
 ### Réponse automatisée (SOAR)
 L'intégration native Wazuh → Shuffle déclenche un workflow dès que la règle 92652 se déclenche, transmettant l'alerte complète (règle, agent, données Windows brutes) vers un webhook Shuffle qui peut ensuite enrichir, notifier ou escalader automatiquement.
@@ -115,6 +115,7 @@ $ sudo tcpdump -i enp0s8 port 88 -n -v
 27 packets captured, 0 packets dropped by kernel
 ```
 <p align="center"><sub>Trafic Kerberos (port 88) enfin visible sur l'interface <code>enp0s8</code> une fois le mode promiscuité activé</sub></p>
+
 - **Dérive d'horloge Kerberos** : `KRB_AP_ERR_SKEW` entre Kali et le DC après plusieurs redémarrages de VM, corrigé par synchronisation NTP manuelle
 
 - **Incompatibilité matérielle silencieuse** : Splunk récent plante en boucle sur un CPU sans AVX à cause de son MongoDB interne (KVStore) : un comportement non documenté clairement, découvert en lisant les logs Ansible internes du conteneur
