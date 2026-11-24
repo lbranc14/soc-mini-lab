@@ -94,9 +94,9 @@ L'intégration native Wazuh → Shuffle déclenche un workflow dès que la règl
 
 ## Ce que ce projet démontre (au-delà d'un tutoriel)
 
-La majorité du travail sur ce lab a été du **troubleshooting réel**, pas de la config qui marche du premier coup — ce qui, à mon sens, est la partie la plus proche de ce que vit un analyste SOC au quotidien :
+La majorité du travail sur ce lab a été du **troubleshooting réel**, pas de la config qui marche du premier coup, ce qui, à mon sens, est la partie la plus proche de ce que vit un analyste SOC au quotidien :
 
-- **Event Wazuh perdu sous charge** : l'agent Windows a occasionnellement "sauté" l'event 4769 précis de l'attaque sous forte rafale d'événements simultanés — diagnostiqué en comparant le volume d'événements 4769 vus par Windows (Event Viewer) face à ce qui remonte réellement dans Wazuh Discover, plutôt qu'en se contentant de "je ne vois rien dans le dashboard"
+- **Event Wazuh perdu sous charge** : l'agent Windows a occasionnellement "sauté" l'event 4769 précis de l'attaque sous forte rafale d'événements simultanés : diagnostiqué en comparant le volume d'événements 4769 vus par Windows (Event Viewer) face à ce qui remonte réellement dans Wazuh Discover, plutôt qu'en se contentant de "je ne vois rien dans le dashboard"
 
 <p align="center">
   <img src="docs/screenshots/09-diagnostic-event4769-windows.png" alt="Event Viewer filtré sur l'event 4769" width="420"/>
@@ -104,7 +104,7 @@ La majorité du travail sur ce lab a été du **troubleshooting réel**, pas de 
   <br/><sub>Méthode de diagnostic : comparer le log source (Event Viewer, à gauche) et ce qui est effectivement indexé côté Wazuh (Discover, à droite) pour détecter une perte silencieuse</sub>
 </p>
 
-- **Isolation réseau host-only** : le switch virtuel VirtualBox ne réplique pas le trafic unicast entre deux VMs invitées vers une troisième — Suricata ne voyait aucun paquet Kerberos tant que le mode promiscuité n'était pas activé des deux côtés (hyperviseur + interface Linux)
+- **Isolation réseau host-only** : le switch virtuel VirtualBox ne réplique pas le trafic unicast entre deux VMs invitées vers une troisième : Suricata ne voyait aucun paquet Kerberos tant que le mode promiscuité n'était pas activé des deux côtés (hyperviseur + interface Linux)
 
 ```
 $ sudo tcpdump -i enp0s8 port 88 -n -v
@@ -116,13 +116,13 @@ $ sudo tcpdump -i enp0s8 port 88 -n -v
 ```
 <p align="center"><sub>Trafic Kerberos (port 88) enfin visible sur l'interface <code>enp0s8</code> une fois le mode promiscuité activé</sub></p>
 - **Dérive d'horloge Kerberos** : `KRB_AP_ERR_SKEW` entre Kali et le DC après plusieurs redémarrages de VM, corrigé par synchronisation NTP manuelle
-- **Incompatibilité matérielle silencieuse** : Splunk récent plante en boucle sur un CPU sans AVX à cause de son MongoDB interne (KVStore) — un comportement non documenté clairement, découvert en lisant les logs Ansible internes du conteneur
+- **Incompatibilité matérielle silencieuse** : Splunk récent plante en boucle sur un CPU sans AVX à cause de son MongoDB interne (KVStore) : un comportement non documenté clairement, découvert en lisant les logs Ansible internes du conteneur
 - **Vérification SSL codée en dur** : l'intégration native Wazuh → Shuffle échouait silencieusement sur le certificat auto-signé de Shuffle ; corrigé en patchant directement le script Python (`verify=False`) après avoir tracé l'erreur jusqu'au niveau debug du module d'intégration
 - **Mauvaise configuration Swarm** : Shuffle configuré par défaut pour Docker Swarm sans qu'aucun cluster Swarm n'existe, bloquant silencieusement l'exécution des workflows
 
 <p align="center">
   <img src="docs/screenshots/06-bug-shuffle-swarm-failure.png" alt="Node Shuffle en échec à cause du mode Swarm" width="420"/>
-  <br/><sub>Premier symptôme : le nœud "Change Me" échoue systématiquement — Orborus tentait de dispatcher en mode Swarm sans cluster configuré</sub>
+  <br/><sub>Premier symptôme : le nœud "Change Me" échoue systématiquement : Orborus tentait de dispatcher en mode Swarm sans cluster configuré</sub>
 </p>
 <p align="center">
   <img src="docs/screenshots/05-bug-shuffle-syntax-exec.png" alt="Mauvaise syntaxe de variable dans Shuffle" width="500"/>
