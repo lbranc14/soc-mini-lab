@@ -68,8 +68,8 @@ python3 GetUserSPNs.py lab.local/yves:Azerty1234! -dc-ip 192.168.171.20 -request
 </p>
 
 ### Détection côté Suricata (IDS réseau)
-- **SID 2226001** — `SURICATA Kerberos 5 weak encryption parameters` : détecte le chiffrement RC4 faible directement sur le câble, indépendamment des logs Windows
-- **SID 2019922** — `ET EXPLOIT Possible GoldenPac Priv Esc in-use` : signature plus large qui matche aussi la structure des requêtes Impacket
+- **SID 2226001** : `SURICATA Kerberos 5 weak encryption parameters` : détecte le chiffrement RC4 faible directement sur le câble, indépendamment des logs Windows
+- **SID 2019922** : `ET EXPLOIT Possible GoldenPac Priv Esc in-use` : signature plus large qui matche aussi la structure des requêtes Impacket
 
 <p align="center">
   <img src="docs/screenshots/03-suricata-sid-2226001.png" alt="Alerte Suricata SID 2226001 sur trafic krb5" width="500"/>
@@ -116,8 +116,11 @@ $ sudo tcpdump -i enp0s8 port 88 -n -v
 ```
 <p align="center"><sub>Trafic Kerberos (port 88) enfin visible sur l'interface <code>enp0s8</code> une fois le mode promiscuité activé</sub></p>
 - **Dérive d'horloge Kerberos** : `KRB_AP_ERR_SKEW` entre Kali et le DC après plusieurs redémarrages de VM, corrigé par synchronisation NTP manuelle
+
 - **Incompatibilité matérielle silencieuse** : Splunk récent plante en boucle sur un CPU sans AVX à cause de son MongoDB interne (KVStore) : un comportement non documenté clairement, découvert en lisant les logs Ansible internes du conteneur
+  
 - **Vérification SSL codée en dur** : l'intégration native Wazuh → Shuffle échouait silencieusement sur le certificat auto-signé de Shuffle ; corrigé en patchant directement le script Python (`verify=False`) après avoir tracé l'erreur jusqu'au niveau debug du module d'intégration
+  
 - **Mauvaise configuration Swarm** : Shuffle configuré par défaut pour Docker Swarm sans qu'aucun cluster Swarm n'existe, bloquant silencieusement l'exécution des workflows
 
 <p align="center">
