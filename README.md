@@ -128,10 +128,7 @@ $ sudo tcpdump -i enp0s8 port 88 -n -v
   <img src="docs/screenshots/06-bug-shuffle-swarm-failure.png" alt="Node Shuffle en échec à cause du mode Swarm" width="420"/>
   <br/><sub>Premier symptôme : le nœud "Change Me" échoue systématiquement : Orborus tentait de dispatcher en mode Swarm sans cluster configuré</sub>
 </p>
-<p align="center">
-  <img src="docs/screenshots/05-bug-shuffle-syntax-exec.png" alt="Mauvaise syntaxe de variable dans Shuffle" width="500"/>
-  <br/><sub>Autre piège : une syntaxe de variable incorrecte (`$exec.webhook_1.body` au lieu de `$exec.test`) empêchait aussi de récupérer le payload du webhook</sub>
-</p>
+
 
 ## Compétences mobilisées
 
